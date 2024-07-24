@@ -7,7 +7,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js"></script>
   </head>
   <body>
+    baseText:<input type="text" id="mainText" /> subText:<input
+      type="text"
+      id="subText"
+    />
+    <button id="update">update</button>
+
     <button id="downloadBtn">Download as PNG</button>
+
     <div id="canvas"></div>
     <script>
       class StampGenerator {
@@ -130,6 +137,20 @@
         "上海复旦科技有限公司",
         "专用章"
       );
+
+      document.getElementById("update").addEventListener("click", function () {
+        const mainText = document.getElementById("mainText").value;
+        const subText = document.getElementById("subText").value;
+
+        // 清除旧的SVG元素
+        const canvas = document.getElementById("canvas");
+        while (canvas.firstChild) {
+          canvas.removeChild(canvas.firstChild);
+        }
+
+        // 创建新的StampGenerator实例
+        const stamp = new StampGenerator("canvas", mainText, subText);
+      });
 
       document.getElementById("downloadBtn").addEventListener("click", () => {
         stamp.download();
