@@ -91,7 +91,7 @@
             add
               .tspan(this.mainText)
               .fill("red")
-              .font({ size: 26, family: "kai" });
+              .font({ size: 26, family: "song" });
           });
           upperText.node.setAttribute("textLength", 330);
           upperText.path(upTextPath);
@@ -100,7 +100,7 @@
             add
               .tspan(this.baseText)
               .fill("red")
-              .font({ size: 20, family: "kai", weight: 1000 });
+              .font({ size: 20, family: "song", weight: 1000 });
           });
           lowerText.node.setAttribute("textLength", 100);
           lowerText.path(StampGenerator.createBottomtextPath());
@@ -132,7 +132,7 @@
         }
       }
 
-      const stamp = new StampGenerator(
+      let stamp = new StampGenerator(
         "canvas",
         "上海复旦科技有限公司",
         "专用章"
@@ -149,7 +149,7 @@
         }
 
         // 创建新的StampGenerator实例
-        const stamp = new StampGenerator("canvas", mainText, subText);
+        stamp = new StampGenerator("canvas", mainText, subText);
       });
 
       document.getElementById("downloadBtn").addEventListener("click", () => {
