@@ -11,6 +11,7 @@
       type="text"
       id="subText"
     />
+    bottomText:<input type="text" id="bottomText" />
     <button id="update">update</button>
 
     <button id="downloadBtn">Download as PNG</button>
@@ -18,13 +19,14 @@
     <div id="canvas"></div>
     <script>
       class StampGenerator {
-        constructor(containerId, mainText, baseText) {
+        constructor(containerId, mainText = "", baseText = "", codeText = "") {
           this.draw = SVG().addTo(`#${containerId}`).size(300, 300);
           this.radius = 100;
           this.centerX = 150;
           this.centerY = 150;
           this.mainText = mainText;
           this.baseText = baseText;
+          this.codeText = codeText;
           this.generate();
         }
 
@@ -57,11 +59,14 @@
         }
 
         static createUptextPath() {
-          return `M ${100} ${200} A ${70} ${70} 0 1 1 ${200} ${200}`;
+          return `M ${86} ${175} A ${67} ${67} 0 1 1 ${205} ${192}`;
         }
 
         static createBottomtextPath() {
-          return `M ${100} ${225} L ${200} ${225}`;
+          return `M ${100} ${205} L ${200} ${205}`;
+        }
+        static createCodeTextPath() {
+          return `M ${85} ${210} A ${70} ${80} 0 1 0 ${218} ${50}`;
         }
 
         generate() {
@@ -93,7 +98,7 @@
               .fill("red")
               .font({ size: 26, family: "song" });
           });
-          upperText.node.setAttribute("textLength", 330);
+          upperText.node.setAttribute("textLength", 250);
           upperText.path(upTextPath);
 
           const lowerText = this.draw.text((add) => {
@@ -104,6 +109,11 @@
           });
           lowerText.node.setAttribute("textLength", 100);
           lowerText.path(StampGenerator.createBottomtextPath());
+          const codeText = this.draw.text((add) => {
+            add.tspan(this.codeText).fill("red").font({ size: 12 });
+          });
+          codeText.path(StampGenerator.createCodeTextPath());
+          codeText.node.setAttribute("textLength", 150);
         }
 
         download() {
@@ -135,12 +145,14 @@
       let stamp = new StampGenerator(
         "canvas",
         "上海复旦科技有限公司",
-        "专用章"
+        "专用章",
+        "2024120103311"
       );
 
       document.getElementById("update").addEventListener("click", function () {
         const mainText = document.getElementById("mainText").value;
         const subText = document.getElementById("subText").value;
+        const bottomText = document.getElementById("bottomText").value;
 
         // 清除旧的SVG元素
         const canvas = document.getElementById("canvas");
@@ -149,7 +161,7 @@
         }
 
         // 创建新的StampGenerator实例
-        stamp = new StampGenerator("canvas", mainText, subText);
+        stamp = new StampGenerator("canvas", mainText, subText, bottomText);
       });
 
       document.getElementById("downloadBtn").addEventListener("click", () => {
